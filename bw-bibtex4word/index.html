@@ -1,0 +1,392 @@
+<html>
+
+<head>
+	<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>【备忘】Bibtex4Word+Latex+Jabref实现Word参考文献插入和排版 | hopeの自留地</title>
+<!-- description在post页面应有不同 -->
+
+	<meta name="description" content="LATEX写论文时常用bib文件管理排版参考文献，改用Word排版时为了能够继续使用已有的bib文献库，可以借助Bibtex4Word这款Word插件进行文献插入及排版。" />
+<!-- post.abstract自带html标签，匹配去除<del>（句中出现html可能性几乎为0，要是有再说吧(┬┬﹏┬┬)）</del> nite🐂🍺 -->
+
+<link rel="shortcut icon" href="https://hope140.cc/favicon.ico?v=1654779742346">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.10.0/katex.min.css">
+<link href="https://cdn.jsdelivr.net/npm/remixicon/fonts/remixicon.css" rel="stylesheet">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Droid+Serif:400,700">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css">
+<link rel="stylesheet" href="https://hope140.cc/styles/main.css">
+
+
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-D6NQW6T312"></script>
+<script>
+	window.dataLayer = window.dataLayer || [];
+
+	function gtag() {
+		dataLayer.push(arguments);
+	}
+	gtag('js', new Date());
+
+	gtag('config', 'G-D6NQW6T312');
+</script>
+
+</head>
+
+<body>
+	<div id="app" class="main px-4 flex flex-col lg:flex-row">
+		<div id="sidebar" class="sidebar-wrapper lg:static lg:w-1/4">
+	<div class="lg:sticky top-0">
+		<div class="sidebar-content">
+			<div
+				class="flex lg:block p-4 lg:px-0 items-center fixed lg:static lg:block top-0 right-0 left-0 bg-white z-50">
+				<i class="ri-menu-2-line lg:mt-4 text-2xl cursor-pointer animated fadeIn" onclick="openMenu()"></i>
+				<a href="https://hope140.cc">
+					<img class="animated fadeInLeft avatar rounded-lg mx-4 lg:mt-32 lg:mx-0 mt-0 lg:w-24 lg:h-24 w-12 w-12"
+						src="https://hope140.cc/images/avatar.png?v=1654779742346" alt="">
+				</a>
+				<h1 class="animated fadeInLeft lg:text-4xl font-extrabold lg:mt-8 mt-0 text-xl"
+					style="animation-delay: 0.2s">hopeの自留地</h1>
+			</div>
+			
+			<div class="animated fadeInLeft" style="animation-delay: 0.4s">
+				<p class="my-4 text-gray-600 font-light hidden lg:block">
+					文章目录
+				</p>
+				<div class="toc-container hidden lg:block">
+					<ul class="markdownIt-TOC">
+<li>
+<ul>
+<li>
+<ul>
+<li><a href="#%E7%AC%AC%E4%B8%80%E6%AD%A5-%E5%AE%89%E8%A3%85bibtex4word">第一步: 安装Bibtex4Word</a></li>
+<li><a href="#%E7%AC%AC%E4%BA%8C%E6%AD%A5%E5%AE%9A%E4%B9%89bibtex4word%E5%9C%A8word%E4%B8%AD%E4%BD%BF%E7%94%A8%E7%9A%84%E6%96%87%E7%8C%AE%E6%A0%B7%E5%BC%8F%E5%B1%9E%E6%80%A7">第二步：定义Bibtex4Word在Word中使用的文献样式属性</a></li>
+<li><a href="#%E7%AC%AC%E4%B8%89%E6%AD%A5%E4%BD%BF%E7%94%A8bibtex4word">第三步：使用Bibtex4Word</a></li>
+<li><a href="#%E6%B3%A8%E6%84%8F%E4%BA%8B%E9%A1%B9">注意事项</a></li>
+<li><a href="#%E4%BD%BF%E7%94%A8jabref%E8%BF%9B%E8%A1%8Cbib%E6%96%87%E7%8C%AE%E7%AE%A1%E7%90%86">使用Jabref进行bib文献管理</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+				</div>
+			</div>
+			
+		</div>
+	</div>
+</div>
+
+<div class="menu-container">
+	<i class="ri-arrow-left-line text-2xl cursor-pointer animated fadeIn close-menu-btn" onclick="closeMenu()"></i>
+	<div>
+		
+		
+		<a href="/" class="menu" style="animation-delay: 0s">
+			首页
+		</a>
+		
+		
+		
+		<a href="/archives" class="menu" style="animation-delay: 0.2s">
+			归档
+		</a>
+		
+		
+		
+		<a href="/tags" class="menu" style="animation-delay: 0.4s">
+			标签
+		</a>
+		
+		
+		
+		<a href="/about" class="menu" style="animation-delay: 0.6000000000000001s">
+			关于
+		</a>
+		
+		
+		
+		<a href="/friends" class="menu" style="animation-delay: 0.8s">
+			友链
+		</a>
+		
+		
+	</div>
+	<!-- 萌备 https://icp.gov.moe -->
+	<div class="site-footer">
+		<p class="py-4 text-gray-700">
+			© 2022 hope140  <br>
+			<span id="runtime_span"></span> <br>
+			<a href="https://icp.gov.moe/?keyword=20221443" target="_blank">萌ICP备20221443号</a> <br>
+			
+		</p>
+		<a class="rss" href="https://hope140.cc/atom.xml" target="_blank">RSS</a>
+	</div>
+</div>
+<div class="mask" onclick="closeMenu()">
+</div>
+		<div class="content-wrapper py-32 lg:p-8 lg:w-3/4 post-detail animated fadeIn">
+			<h1 class="text-3xl font-bold lg:mt-16">
+				【备忘】Bibtex4Word+Latex+Jabref实现Word参考文献插入和排版
+			</h1>
+			<!-- 由于"/"字符只好做postPath的判断，不设定postPath时是一个长度为0的字符串 -->
+			
+			<div class="text-sm text-gray-700 lg:my-8">
+				2022-03-21 / 6 min read / <span id="/bw-bibtex4word/"
+					class="waline-pageview-count"> </span> 阅读 / <span id="/bw-bibtex4word/"
+					class="waline-comment-count"></span>评论
+			</div>
+			
+			<!-- 如果有更好办法再做修改 -->
+			
+			<div class="post-content yue">
+				<p>LATEX写论文时常用bib文件管理排版参考文献，改用Word排版时为了能够继续使用已有的bib文献库，可以借助Bibtex4Word这款Word插件进行文献插入及排版。</p>
+<!-- more -->
+<p><strong>使用环境</strong>：Word+LATEX软件<br>
+Bibtex4Word插件的使用需要借助LaTeX编译器，因此电脑上需要安装LaTeX软件（或者只安装LaTeX编译器），本文使用以MiKTeX为核心的中文套装CTeX 软件进行介绍。Word版本为office 2016。</p>
+<p>使用Bibtex4Word实现参考文献在Word中的插入和排版步骤如下：</p>
+<h3 id="第一步-安装bibtex4word">第一步: 安装Bibtex4Word</h3>
+<ol>
+<li>请登录<a href="http://www.ee.ic.ac.uk/hp/staff/dmb/perl/index.html">Bibtex4Word网站</a>，下载 bibtex4word.zip软件。</li>
+<li>确保机器上已经安装有TeX软件，推荐使用以MiKTeX为核心的中文套装CTeX 软件。</li>
+<li>将解压缩后的Bibtex4Word软件文件夹中的“<strong>bibtex4word.dot</strong>”文件，复制粘贴至<strong>Word的启动文件夹</strong>，操作系统及Word安装位置不同将导致该启动文件夹的路径不一样，例如：<br>
+<strong>XP</strong>: C:\Documents and Settings\你的用户名\Application Data\Microsoft\Word\STARTUP<br>
+<strong>win7/win10</strong>: C:\Program Files (x86)\Microsoft Office\root\Office16\STARTUP</li>
+<li>重新启动Word后，Word的工具栏上将会出现Bibtex4Word的工具条，如未出现，可参阅Bibtex4Word网站上的相关信息。</li>
+</ol>
+<figure data-type="image" tabindex="1"><img src="https://img-blog.csdnimg.cn/20190306144504905.png" alt="fg" loading="lazy"></figure>
+<h3 id="第二步定义bibtex4word在word中使用的文献样式属性">第二步：定义Bibtex4Word在Word中使用的文献样式属性</h3>
+<p>Bibtex4Word是调用BibTeX编译处理参考文献的引用和排版样式的，因此必须预先定义你自己使用的bst样式文件，以常用的国标样式GBT7714-2005为例说明。</p>
+<ol>
+<li>下载GBT7714-2005.bst参考文献样式文件。下载地址：<a href="https://download.csdn.net/download/brave_stone/11002555">GBT7714-2005NLang.bst下载</a>. 此外，若需要符合GBT7714-2015新国标的bst文件可自行百度下载。</li>
+<li>将上一步得到的“GBT7714-2005NLang.bst”文件复制到MiKTeX的bst文件夹下，由于CTeX的版本不同，路径也不一样，例如：<br>
+CTeX 2.8/2.9：~\CTEX\MiKTeX\bibtex\bst\</li>
+<li>复制粘贴文件夹完成后需要刷新MiKTeX的数据库，对于CTeX2.8/2.9套装方法如下：<br>
+打开WinEdt 7.0，选择TeX----&gt;MiKTeX----&gt;MiKTeX Options----&gt;General----&gt;点击&quot;<strong>Refresh FNDB</strong>&quot;按钮即可更新MiKTeX的数据库。<br>
+<img src="https://img-blog.csdnimg.cn/20190306153858279.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L2JyYXZlX3N0b25l,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述" loading="lazy"></li>
+</ol>
+<h3 id="第三步使用bibtex4word">第三步：使用Bibtex4Word</h3>
+<figure data-type="image" tabindex="2"><img src="https://img-blog.csdnimg.cn/20190306160354467.png" alt="在这里插入图片描述" loading="lazy"></figure>
+<ol>
+<li><strong>选择bib数据库文件</strong>。在打开的Word文档中，点击Bibtex4Word的工具条中的图标(5)，选择bib数据库文件，需要注意该bib数据库的编码要和选用的bst文件保持一致，前文我们选择的是GBK编码形式的bst文件“GBT7714-2005NLang.bst”，因此bib数据库也必须是GBK编码的。</li>
+<li><strong>定义文献格式</strong>。点击图标(4)，在弹出的对话框中填写“<strong>GBT7714-2005NLang/nsch^</strong>”（引号内的内容），定义你选用的参考文献样式文件名（斜杠前）和该样式属性（斜杠后）。这部分内容详见Bibtex4Word网站的文献样式说明。此处稍作讲述<br>
+①斜杠前是你选用的参考文献样式名称，如：GBT7714-2005NLang，或 abbrvnat，或IEEEtran等等；<br>
+②斜杠后是你想在该样式文件中决定的参考文献引用的方式（上标？压缩引用？超链接？），例如：<br>
+  — n，表示强制文后文献以数字顺序排列，不管选用的样式文件是著者年还是顺序方式的；<br>
+  — s，表示“sort”，将顺序引用的标记[2,4,1,3]整理为[1,2,3,4]；<br>
+  — c，表示“compress”，将顺序引用的标记[1,2,3,4]压缩为[1-4]；<br>
+  — h，表示“hyperlink”，将引用标记与文后文献的对应条目之间建立超链接关系，按住“ctrl”键用鼠标左击标记即可跳转至对应的文献条目，返回则是按住“alt”键后按一下方向键中的“&lt;—”键即可；<br>
+  — ^，表示上标引用方式，即[4]样式；<br>
+  — [，表示引用标记采用方括号样式，例如[4-9];<br>
+  — (，表示引用标记采用圆括号样式，例如(Smith, 2000);</li>
+<li><strong>插入参考文献</strong>。点击图标(1)，在弹出的对话框中输入以英文逗号分隔的bibtexkey，如果你在前述第一步中没有选择bib数据库，会先跳出对话框让你定义数据库。输入完你选好的bibtexkey后点击对话框的“确定”按钮，在插入文献的word文档处显示的是“[,……]”的样式。</li>
+<li><strong>生成文后的参考文献</strong>。先将光标放在你想生成参考文献的文档处，比如最后一行，然后点击图标，即可在光标处插入定制的文献排版样式。这是Bibtex4Word调用MiKTeX的BibTeX根据你选择的bst文件和属性自动排版生成的。</li>
+<li>将光标放置在已经排版好的引用标记处，如[1-4]处，点击图标即可出现含有原来bibtexkey的对话框，通过删减或增加新的bibtexkey即可更改引用文献。</li>
+</ol>
+<h3 id="注意事项">注意事项</h3>
+<ol>
+<li>选用的bib数据库和bst文件必须编码相同，否则会出现乱码现象。本人都使用了GBK编码的bib数据库和bst文件“GBT7714-2005NLang”，顺利实现了参考文献中英文混排的样式。</li>
+<li>第一次生成文后参考文献列表时请注意光标位置，一定要放在想生成文献列表的文档处，以后才可点击图标，否则文献列表位置就在当前文档处了，只能删掉后再重新生成。</li>
+<li>如果文章主要使用顺序上标样式但同时有行内引用标记，可以选中该标记“[2]”，然后点击工具栏中的上标按钮“x2”即可变成“文[2]研究了……”。</li>
+</ol>
+<h3 id="使用jabref进行bib文献管理">使用Jabref进行bib文献管理</h3>
+<p>Jabref是一个使用java语言编写的免费开源的bib文献数据库管理软件，支持在线抓取和更新题录，支持文献标题备注笔记，配合Word和LATEX使用都很方便。<br>
+软件下载及安装使用教程请移步官网：http://www.jabref.org/<br>
+软件使用界面如下图：<br>
+<img src="https://img-blog.csdnimg.cn/20190306162747771.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L2JyYXZlX3N0b25l,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述" loading="lazy"><br>
+<strong>参考文献</strong><br>
+[1] <a href="http://blog.sina.com.cn/s/blog_c31da0f70101mij4.html">利用Bibtex4Word实现Word写作时参考文献的插入和排版</a>.<br>
+[2] <a href="http://www.ee.ic.ac.uk/hp/staff/dmb/perl/index.html">Bibtex4Word - Home</a>.<br>
+[3] <a href="http://www.scholat.com/vpost.html?pid=72303">Word中使用bib管理参考文献</a>.</p>
+
+			</div>
+
+			
+			<a class="animated fadeInUp p-2 items-center text-sm text-gray-700 border hover:bg-gray-300 leading-none rounded-full flex lg:inline-flex m-4 "
+				href="https://hope140.cc/tag/lun-wen/">
+				<span class="flex-auto">
+					论文
+				</span>
+			</a>
+			
+			<a class="animated fadeInUp p-2 items-center text-sm text-gray-700 border hover:bg-gray-300 leading-none rounded-full flex lg:inline-flex m-4 "
+				href="https://hope140.cc/tag/latex/">
+				<span class="flex-auto">
+					latex
+				</span>
+			</a>
+			
+			<a class="animated fadeInUp p-2 items-center text-sm text-gray-700 border hover:bg-gray-300 leading-none rounded-full flex lg:inline-flex m-4 "
+				href="https://hope140.cc/tag/bei-wang/">
+				<span class="flex-auto">
+					备忘
+				</span>
+			</a>
+			
+			<a class="animated fadeInUp p-2 items-center text-sm text-gray-700 border hover:bg-gray-300 leading-none rounded-full flex lg:inline-flex m-4 "
+				href="https://hope140.cc/tag/zhuan-zai/">
+				<span class="flex-auto">
+					转载
+				</span>
+			</a>
+			
+
+			<div class="post-Copyright py-12">
+				<span class="flex-auto"> 本文来源于 hopeの自留地</span>
+				<div class="prev-post">
+					<a href="https://hope140.cc">
+						<h3 class="post-Copyright-link">
+							博客地址： https://hope140.cc
+						</h3>
+					</a>
+				</div>
+			</div>
+
+			<div class="flex justify-between py-8">
+				
+				<div class="prev-post">
+					<a href="https://hope140.cc/bw-ndsi/">
+						<h3 class="post-title">
+							<i class="ri-arrow-left-line"></i>
+							【备忘】修复windows无网络访问权限的问题
+						</h3>
+					</a>
+				</div>
+				
+
+				
+				<div class="next-post">
+					<a href="https://hope140.cc/dj-picgo/">
+						<h3 class="post-title">
+							【搭建】通过PicGo将GitHub和Gitee搭建为图床
+							<i class="ri-arrow-right-line"></i>
+						</h3>
+					</a>
+				</div>
+				
+			</div>
+
+			
+			<script src="https://cdn.jsdelivr.net/npm/@waline/client/dist/waline.js"></script>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/hope140/gridea-theme-seeker/assets/styles/waline.min.css">
+
+<div id="waline"></div>
+<script>
+	Waline.init({
+		el: '#waline',
+		lang: 'zh-CN',
+		pageview: true,
+		comment: true,
+		serverURL: 'https://discuss.hope140.cc',
+		path: window.location.pathname,
+		dark: 'auto',
+		emoji: [
+			'https://cdn.jsdelivr.net/gh/walinejs/emojis@1.0.0/qq'
+		],
+	});
+</script>
+			
+
+		</div>
+	</div>
+
+	<script src="https://hope140.cc/media/prism.js"></script>
+<script type="text/javascript" src="https://hope140.cc/media/show_runtime.js"></script>
+<script type="text/javascript" src="https://hope140.cc/media/clipboard.js"></script>
+<script>
+	Prism.highlightAll()
+	let mainNavLinks = document.querySelectorAll(".markdownIt-TOC a");
+
+	// This should probably be throttled.
+	// Especially because it triggers during smooth scrolling.
+	// https://lodash.com/docs/4.17.10#throttle
+	// You could do like...
+	// window.addEventListener("scroll", () => {
+	//    _.throttle(doThatStuff, 100);
+	// });
+	// Only not doing it here to keep this Pen dependency-free.
+
+	window.addEventListener("scroll", event => {
+		let fromTop = window.scrollY;
+
+		mainNavLinks.forEach((link, index) => {
+			let section = document.getElementById(decodeURI(link.hash).substring(1));
+			let nextSection = null
+			if (mainNavLinks[index + 1]) {
+				nextSection = document.getElementById(decodeURI(mainNavLinks[index + 1].hash).substring(
+				1));
+			}
+			if (section.offsetTop <= fromTop) {
+				if (nextSection) {
+					if (nextSection.offsetTop > fromTop) {
+						link.classList.add("current");
+					} else {
+						link.classList.remove("current");
+					}
+				} else {
+					link.classList.add("current");
+				}
+			} else {
+				link.classList.remove("current");
+			}
+		});
+	});
+
+
+	document.addEventListener("DOMContentLoaded", function () {
+		var lazyImages = [].slice.call(document.querySelectorAll(".post-feature-image.lazy"));
+
+		if ("IntersectionObserver" in window) {
+			let lazyImageObserver = new IntersectionObserver(function (entries, observer) {
+				entries.forEach(function (entry) {
+					if (entry.isIntersecting) {
+						let lazyImage = entry.target
+						lazyImage.style.backgroundImage = `url(${lazyImage.dataset.bg})`
+						lazyImage.classList.remove("lazy")
+						lazyImageObserver.unobserve(lazyImage)
+					}
+				});
+			});
+
+			lazyImages.forEach(function (lazyImage) {
+				lazyImageObserver.observe(lazyImage)
+			})
+		} else {
+			// Possibly fall back to a more compatible method here
+		}
+	});
+
+	const menuContainer = document.querySelector('.menu-container')
+	const menus = document.querySelectorAll('.menu-container .menu')
+	const mask = document.querySelector('.mask')
+	const contentWrapper = document.querySelector('.content-wrapper')
+	const latestArticle = document.querySelector('.latest-article')
+	const readMore = document.querySelector('.read-more')
+	const indexPage = document.querySelector('.index-page')
+
+	const isHome = location.pathname === '/'
+	if (latestArticle) {
+		latestArticle.style.display = isHome ? 'block' : 'none'
+		readMore.style.display = isHome ? 'block' : 'none'
+		indexPage.style.display = isHome ? 'none' : 'block'
+	}
+
+	const openMenu = () => {
+		menuContainer.classList.add('open')
+		menus.forEach(menu => {
+			menu.classList.add('animated', 'fadeInLeft')
+		})
+		mask.classList.add('open')
+		contentWrapper.classList.add('is-second')
+	}
+
+	const closeMenu = () => {
+		menuContainer.classList.remove('open')
+		menus.forEach(menu => {
+			menu.classList.remove('animated', 'fadeInLeft')
+		})
+		mask.classList.remove('open')
+		contentWrapper.classList.remove('is-second')
+	}
+</script>
+</body>
+
+</html>

@@ -1,0 +1,308 @@
+<html>
+
+<head>
+	<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>【数学】连续和一致连续的区别 | hopeの自留地</title>
+<!-- description在post页面应有不同 -->
+
+	<meta name="description" content="「连续」和「一致连续」的不同，都是定义中那个 <img src="https://www.zhihu.com/equation?tex=%5Cdelta" alt="[公式]" loading="lazy"> 导致的问题。" />
+<!-- post.abstract自带html标签，匹配去除<del>（句中出现html可能性几乎为0，要是有再说吧(┬┬﹏┬┬)）</del> nite🐂🍺 -->
+
+<link rel="shortcut icon" href="https://hope140.cc/favicon.ico?v=1654779742346">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.10.0/katex.min.css">
+<link href="https://cdn.jsdelivr.net/npm/remixicon/fonts/remixicon.css" rel="stylesheet">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Droid+Serif:400,700">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css">
+<link rel="stylesheet" href="https://hope140.cc/styles/main.css">
+
+
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-D6NQW6T312"></script>
+<script>
+	window.dataLayer = window.dataLayer || [];
+
+	function gtag() {
+		dataLayer.push(arguments);
+	}
+	gtag('js', new Date());
+
+	gtag('config', 'G-D6NQW6T312');
+</script>
+
+</head>
+
+<body>
+	<div id="app" class="main px-4 flex flex-col lg:flex-row">
+		<div id="sidebar" class="sidebar-wrapper lg:static lg:w-1/4">
+	<div class="lg:sticky top-0">
+		<div class="sidebar-content">
+			<div
+				class="flex lg:block p-4 lg:px-0 items-center fixed lg:static lg:block top-0 right-0 left-0 bg-white z-50">
+				<i class="ri-menu-2-line lg:mt-4 text-2xl cursor-pointer animated fadeIn" onclick="openMenu()"></i>
+				<a href="https://hope140.cc">
+					<img class="animated fadeInLeft avatar rounded-lg mx-4 lg:mt-32 lg:mx-0 mt-0 lg:w-24 lg:h-24 w-12 w-12"
+						src="https://hope140.cc/images/avatar.png?v=1654779742346" alt="">
+				</a>
+				<h1 class="animated fadeInLeft lg:text-4xl font-extrabold lg:mt-8 mt-0 text-xl"
+					style="animation-delay: 0.2s">hopeの自留地</h1>
+			</div>
+			
+			<div class="animated fadeInLeft" style="animation-delay: 0.4s">
+				<p class="my-4 text-gray-600 font-light hidden lg:block">
+					文章目录
+				</p>
+				<div class="toc-container hidden lg:block">
+					
+				</div>
+			</div>
+			
+		</div>
+	</div>
+</div>
+
+<div class="menu-container">
+	<i class="ri-arrow-left-line text-2xl cursor-pointer animated fadeIn close-menu-btn" onclick="closeMenu()"></i>
+	<div>
+		
+		
+		<a href="/" class="menu" style="animation-delay: 0s">
+			首页
+		</a>
+		
+		
+		
+		<a href="/archives" class="menu" style="animation-delay: 0.2s">
+			归档
+		</a>
+		
+		
+		
+		<a href="/tags" class="menu" style="animation-delay: 0.4s">
+			标签
+		</a>
+		
+		
+		
+		<a href="/about" class="menu" style="animation-delay: 0.6000000000000001s">
+			关于
+		</a>
+		
+		
+		
+		<a href="/friends" class="menu" style="animation-delay: 0.8s">
+			友链
+		</a>
+		
+		
+	</div>
+	<!-- 萌备 https://icp.gov.moe -->
+	<div class="site-footer">
+		<p class="py-4 text-gray-700">
+			© 2022 hope140  <br>
+			<span id="runtime_span"></span> <br>
+			<a href="https://icp.gov.moe/?keyword=20221443" target="_blank">萌ICP备20221443号</a> <br>
+			
+		</p>
+		<a class="rss" href="https://hope140.cc/atom.xml" target="_blank">RSS</a>
+	</div>
+</div>
+<div class="mask" onclick="closeMenu()">
+</div>
+		<div class="content-wrapper py-32 lg:p-8 lg:w-3/4 post-detail animated fadeIn">
+			<h1 class="text-3xl font-bold lg:mt-16">
+				【数学】连续和一致连续的区别
+			</h1>
+			<!-- 由于"/"字符只好做postPath的判断，不设定postPath时是一个长度为0的字符串 -->
+			
+			<div class="text-sm text-gray-700 lg:my-8">
+				2022-02-19 / 2 min read / <span id="/sx-1/"
+					class="waline-pageview-count"> </span> 阅读 / <span id="/sx-1/"
+					class="waline-comment-count"></span>评论
+			</div>
+			
+			<!-- 如果有更好办法再做修改 -->
+			
+			<div class="post-content yue">
+				<p>「连续」和「一致连续」的不同，都是定义中那个 <img src="https://www.zhihu.com/equation?tex=%5Cdelta" alt="[公式]" loading="lazy"> 导致的问题。</p>
+<!-- more -->
+<p>「连续」首先是对一点而言的。回顾一下定义：</p>
+<blockquote>
+<p>若 <img src="https://www.zhihu.com/equation?tex=%5Cforall+%5Cvarepsilon%3E0%2C%5Cexists%5Cdelta%3E0%2C" alt="[公式]" loading="lazy"> 当 <img src="https://www.zhihu.com/equation?tex=%7Cx-x_0%7C%3C%5Cdelta" alt="[公式]" loading="lazy"> 时,成立 <img src="https://www.zhihu.com/equation?tex=%7Cf%28x%29-f%28x_0%29%7C%3C%5Cvarepsilon%2C" alt="[公式]" loading="lazy"> 则称 <img src="https://www.zhihu.com/equation?tex=f%28x%29" alt="[公式]" loading="lazy"> 在 <img src="https://www.zhihu.com/equation?tex=x_0" alt="[公式]" loading="lazy"> 处连续。</p>
+</blockquote>
+<p>如果对于区间中的每个 <img src="https://www.zhihu.com/equation?tex=x_0" alt="[公式]" loading="lazy"> 都能做到这样，函数就在这个区间连续。但是，请注意，**这里的 <img src="https://www.zhihu.com/equation?tex=%5Cdelta" alt="[公式]" loading="lazy"> 的选取通常不仅与 <img src="https://www.zhihu.com/equation?tex=%5Cvarepsilon" alt="[公式]" loading="lazy"> 有关，也与 <img src="https://www.zhihu.com/equation?tex=x_0" alt="[公式]" loading="lazy"> 有关。**如果在 <img src="https://www.zhihu.com/equation?tex=x_0" alt="[公式]" loading="lazy"> 附近，函数变化比较剧烈，曲线比较陡峭，这个 <img src="https://www.zhihu.com/equation?tex=%5Cdelta" alt="[公式]" loading="lazy"> 就必须取小一点；如果函数变化比较温和，曲线比较平缓，这个 <img src="https://www.zhihu.com/equation?tex=%5Cdelta" alt="[公式]" loading="lazy"> 就可以取大一点。换言之，连续函数在取定 <img src="https://www.zhihu.com/equation?tex=%5Cvarepsilon" alt="[公式]" loading="lazy"> 之后，对于区间中不同的 <img src="https://www.zhihu.com/equation?tex=x_0%2C" alt="[公式]" loading="lazy"> 允许选择不同的 <img src="https://www.zhihu.com/equation?tex=%5Cdelta%2C" alt="[公式]" loading="lazy"> 并不要求存在能够在区间各处都一致适用的 <img src="https://www.zhihu.com/equation?tex=%5Cdelta" alt="[公式]" loading="lazy">。</p>
+<p>但是，有这样一种更为特殊的连续函数，任意取定 <img src="https://www.zhihu.com/equation?tex=%5Cvarepsilon" alt="[公式]" loading="lazy"> 之后，可以找到公共的 <img src="https://www.zhihu.com/equation?tex=%5Cdelta" alt="[公式]" loading="lazy"> 普遍地适用于区间各处，也就是说，**这个 <img src="https://www.zhihu.com/equation?tex=%5Cdelta" alt="[公式]" loading="lazy"> 变得只与 <img src="https://www.zhihu.com/equation?tex=%5Cvarepsilon" alt="[公式]" loading="lazy"> 有关，而与 <img src="https://www.zhihu.com/equation?tex=x_0" alt="[公式]" loading="lazy"> 无关了。**这样的连续就称为「一致连续」。</p>
+<p>为便于直观地理解，我们借助函数图象作一个说明。对于一致连续函数，在取定 <img src="https://www.zhihu.com/equation?tex=%5Cvarepsilon" alt="[公式]" loading="lazy"> 之后，我们总能找到一个固定的 <img src="https://www.zhihu.com/equation?tex=%5Cdelta%2C" alt="[公式]" loading="lazy"> 在作出高为 <img src="https://www.zhihu.com/equation?tex=2%5Cvarepsilon%2C" alt="[公式]" loading="lazy"> 宽为 <img src="https://www.zhihu.com/equation?tex=2%5Cdelta" alt="[公式]" loading="lazy"> 的竖直的小矩形后，让这个小矩形的中心遍历函数的曲线，都能够保证函数曲线总是从矩形左右两侧穿过！而如果是，无论将 <img src="https://www.zhihu.com/equation?tex=%5Cdelta" alt="[公式]" loading="lazy"> 取得多么小，在小矩形遍历函数曲线时，都会在某些位置被曲线上下穿过，那么函数就不是一致连续了。</p>
+<p>到此，聪明的题主一定能够领悟到：**一致连续函数不可能无限地陡峭下去！**你所举的例子 <img src="https://www.zhihu.com/equation?tex=f%28x%29%3D1%2Fx" alt="[公式]" loading="lazy"> 之所以在 <img src="https://www.zhihu.com/equation?tex=%280%2C1%29" alt="[公式]" loading="lazy"> 上不一致连续，从直观上来解释，就是因为在 <img src="https://www.zhihu.com/equation?tex=x" alt="[公式]" loading="lazy"> 趋于零时，它「陡」得那样清新脱俗、自由奔放、随心所欲、毫无节制！</p>
+<figure data-type="image" tabindex="1"><img src="https://pic3.zhimg.com/50/v2-ba1c06100f32a5939a49a75b257130ce_720w.jpg?source=1940ef5c" alt="img" loading="lazy"></figure>
+<p>作者：予一人<br>
+链接：https://www.zhihu.com/question/342590576/answer/852699974<br>
+来源：知乎</p>
+
+			</div>
+
+			
+			<a class="animated fadeInUp p-2 items-center text-sm text-gray-700 border hover:bg-gray-300 leading-none rounded-full flex lg:inline-flex m-4 "
+				href="https://hope140.cc/tag/shu-xue/">
+				<span class="flex-auto">
+					数学
+				</span>
+			</a>
+			
+			<a class="animated fadeInUp p-2 items-center text-sm text-gray-700 border hover:bg-gray-300 leading-none rounded-full flex lg:inline-flex m-4 "
+				href="https://hope140.cc/tag/bei-wang/">
+				<span class="flex-auto">
+					备忘
+				</span>
+			</a>
+			
+			<a class="animated fadeInUp p-2 items-center text-sm text-gray-700 border hover:bg-gray-300 leading-none rounded-full flex lg:inline-flex m-4 "
+				href="https://hope140.cc/tag/zhuan-zai/">
+				<span class="flex-auto">
+					转载
+				</span>
+			</a>
+			
+
+			<div class="post-Copyright py-12">
+				<span class="flex-auto"> 本文来源于 hopeの自留地</span>
+				<div class="prev-post">
+					<a href="https://hope140.cc">
+						<h3 class="post-Copyright-link">
+							博客地址： https://hope140.cc
+						</h3>
+					</a>
+				</div>
+			</div>
+
+			<div class="flex justify-between py-8">
+				
+
+				
+			</div>
+
+			
+			<script src="https://cdn.jsdelivr.net/npm/@waline/client/dist/waline.js"></script>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/hope140/gridea-theme-seeker/assets/styles/waline.min.css">
+
+<div id="waline"></div>
+<script>
+	Waline.init({
+		el: '#waline',
+		lang: 'zh-CN',
+		pageview: true,
+		comment: true,
+		serverURL: 'https://discuss.hope140.cc',
+		path: window.location.pathname,
+		dark: 'auto',
+		emoji: [
+			'https://cdn.jsdelivr.net/gh/walinejs/emojis@1.0.0/qq'
+		],
+	});
+</script>
+			
+
+		</div>
+	</div>
+
+	<script src="https://hope140.cc/media/prism.js"></script>
+<script type="text/javascript" src="https://hope140.cc/media/show_runtime.js"></script>
+<script type="text/javascript" src="https://hope140.cc/media/clipboard.js"></script>
+<script>
+	Prism.highlightAll()
+	let mainNavLinks = document.querySelectorAll(".markdownIt-TOC a");
+
+	// This should probably be throttled.
+	// Especially because it triggers during smooth scrolling.
+	// https://lodash.com/docs/4.17.10#throttle
+	// You could do like...
+	// window.addEventListener("scroll", () => {
+	//    _.throttle(doThatStuff, 100);
+	// });
+	// Only not doing it here to keep this Pen dependency-free.
+
+	window.addEventListener("scroll", event => {
+		let fromTop = window.scrollY;
+
+		mainNavLinks.forEach((link, index) => {
+			let section = document.getElementById(decodeURI(link.hash).substring(1));
+			let nextSection = null
+			if (mainNavLinks[index + 1]) {
+				nextSection = document.getElementById(decodeURI(mainNavLinks[index + 1].hash).substring(
+				1));
+			}
+			if (section.offsetTop <= fromTop) {
+				if (nextSection) {
+					if (nextSection.offsetTop > fromTop) {
+						link.classList.add("current");
+					} else {
+						link.classList.remove("current");
+					}
+				} else {
+					link.classList.add("current");
+				}
+			} else {
+				link.classList.remove("current");
+			}
+		});
+	});
+
+
+	document.addEventListener("DOMContentLoaded", function () {
+		var lazyImages = [].slice.call(document.querySelectorAll(".post-feature-image.lazy"));
+
+		if ("IntersectionObserver" in window) {
+			let lazyImageObserver = new IntersectionObserver(function (entries, observer) {
+				entries.forEach(function (entry) {
+					if (entry.isIntersecting) {
+						let lazyImage = entry.target
+						lazyImage.style.backgroundImage = `url(${lazyImage.dataset.bg})`
+						lazyImage.classList.remove("lazy")
+						lazyImageObserver.unobserve(lazyImage)
+					}
+				});
+			});
+
+			lazyImages.forEach(function (lazyImage) {
+				lazyImageObserver.observe(lazyImage)
+			})
+		} else {
+			// Possibly fall back to a more compatible method here
+		}
+	});
+
+	const menuContainer = document.querySelector('.menu-container')
+	const menus = document.querySelectorAll('.menu-container .menu')
+	const mask = document.querySelector('.mask')
+	const contentWrapper = document.querySelector('.content-wrapper')
+	const latestArticle = document.querySelector('.latest-article')
+	const readMore = document.querySelector('.read-more')
+	const indexPage = document.querySelector('.index-page')
+
+	const isHome = location.pathname === '/'
+	if (latestArticle) {
+		latestArticle.style.display = isHome ? 'block' : 'none'
+		readMore.style.display = isHome ? 'block' : 'none'
+		indexPage.style.display = isHome ? 'none' : 'block'
+	}
+
+	const openMenu = () => {
+		menuContainer.classList.add('open')
+		menus.forEach(menu => {
+			menu.classList.add('animated', 'fadeInLeft')
+		})
+		mask.classList.add('open')
+		contentWrapper.classList.add('is-second')
+	}
+
+	const closeMenu = () => {
+		menuContainer.classList.remove('open')
+		menus.forEach(menu => {
+			menu.classList.remove('animated', 'fadeInLeft')
+		})
+		mask.classList.remove('open')
+		contentWrapper.classList.remove('is-second')
+	}
+</script>
+</body>
+
+</html>
